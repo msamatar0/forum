@@ -1,0 +1,18 @@
+<div class="jumbotron" style="text-align: center; height: 410; width: 1000; margin: auto;">
+    <h2 style="color: black;">Bulletin Board</h2><br>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-area">
+        <input class="form-control" style="width: 200; display: inline-block; margain: 0 auto;"
+            type="text" id="username" formControlName="username" placeholder="Username" required/><br/><br/>
+
+        <input class="form-control" style="width: 200; display: inline-block; margain: 0 auto;"
+            type="password" id="password" formControlName="password" placeholder="Password" required/><br/><br/>
+        <input type="submit" name="submit" class="btn btn-primary" value="Submit" />
+    </div>
+    </form>
+    <br>
+    <form routerLink="register">
+    <input type="submit" class="btn btn-success" value="Register"/>
+    </form>
+</div>

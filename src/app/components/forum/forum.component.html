@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <strong class="nav-link">
+            Welcome, {{currentUser.username}}!
+          <span class="sr-only">(current)</span>
+        </strong>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="">
+          Logout<span class="sr-only">(current)</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+<div style="text-align: left; display: inline-block; width: 60%; padding: 0 20;">
+  <h4>Bulletin Posts</h4>
+  <ul class="list-group" *ngFor="let post of posts">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a routerLink="/post/{{post.postId}}">{{post.subject}}</a>
+      <p>{{post.postedBy}}</p>
+      <p>{{post.postDate}}</p>
+    </li>
+  </ul>
+  <p class="text">
+    
+  </p>
+</div>
+<div style="height: 400px; width: 400px; padding: 0 20;">
+  <h4>Post a message:</h4>
+  <form [formGroup]="postForm" (ngSumbit) = "onSubmit()">
+      Subject: <br/><input type="text" class="form-control" name="subject" formControlName="subject" value=""/><br/>
+      Message: <br/><textarea class="form-control" name="content" formControlName="content" rows="7"></textarea><br/>
+      <input type="submit" class="btn btn-primary" name="submit" value="Enter"/>
+  </form>
+
+</div>
