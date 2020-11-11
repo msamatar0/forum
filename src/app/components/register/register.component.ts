@@ -29,11 +29,17 @@ export class RegisterComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    console.log("In register function!");
     let user = new User();
-    user.username = this.registerForm.get('username').value;
-    user.password = this.registerForm.get('password').value;
-    user.email    = this.registerForm.get('email').value;
-
-    this.userv.save(user);
+    this.userv.getMaxId().subscribe(id => {
+      user.id = id + 1;
+      user.email = this.registerForm.get('email').value;
+      user.username = this.registerForm.get('username').value;
+      user.password = this.registerForm.get('password').value;
+      this.userv.save(user);
+      this.userv.changeUser(user);
+      console.log(user);
+      this.router.navigate(['forum']);
+    });
   }
 }

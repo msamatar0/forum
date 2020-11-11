@@ -1,8 +1,13 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient,  HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { User } from '../common/user';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { Post } from '../common/post';
+import { User } from '../common/user';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type':'application/json'})
+};
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +15,25 @@ import { Observable, throwError } from 'rxjs';
 
 export class UserService {
   public baseUrl = 'http://localhost:8080/api/users';
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json'
-    })
-  };
-  headers= new HttpHeaders()
-    .set('content-type', 'application/json');
   
   currentUser: User;
   
   constructor(private http: HttpClient) {}
  
-  public save(user: User) {
-    return this.http.post<User>(this.baseUrl, user);
+  public save(user: User): void{
+    console.log("saving new user to db...");
+    let body = {
+      userId: user.id,
+      email: user.email,
+      username: user.username,
+      password: user.password
+    };
+    console.log(body);
+    this.http.post<Post>(this.baseUrl, body, httpOptions).toPromise();
+  }
+
+  public getMaxId(): Observable<number>{
+    return this.http.get<number>(`${this.baseUrl}/search/findMaxId`);
   }
 
   public getUserList(): Observable<User[]> {

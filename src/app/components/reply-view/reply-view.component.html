@@ -19,7 +19,7 @@
   </div>
 </nav>
 <div style="margain: 0 auto; padding: 30px; width: 50rem;">
-  <form action="reply" [formGroup]="replyForm" method="post">
+  <form action="reply" [formGroup]="replyForm" (ngSubmit)="onSubmit()">
       Reply: <br/><textarea class="form-control" formControlName="content" rows="7"></textarea><br/>
       <input type="submit" class="btn btn-primary" name="submit" value="Enter"/>
   </form>

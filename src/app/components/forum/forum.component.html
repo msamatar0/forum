@@ -20,10 +20,10 @@
 </nav>
 <br>
 <div style="text-align: left; display: inline-block; width: 60%; padding: 0 20;">
-  <h4>Bulletin Posts</h4>
+  <h4 style="color: black;">Bulletin Posts:</h4>
   <ul class="list-group" *ngFor="let post of posts">
     <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a routerLink="/post/{{post.postId}}">{{post.subject}}</a>
+      <a (click)="viewPost(post.postId)">{{post.subject}}</a>
       <p>{{post.postedBy}}</p>
       <p>{{post.postDate}}</p>
     </li>
@@ -33,10 +33,14 @@
   </p>
 </div>
 <div style="height: 400px; width: 400px; padding: 0 20;">
-  <h4>Post a message:</h4>
-  <form [formGroup]="postForm" (ngSumbit) = "onSubmit()">
-      Subject: <br/><input type="text" class="form-control" name="subject" formControlName="subject" value=""/><br/>
-      Message: <br/><textarea class="form-control" name="content" formControlName="content" rows="7"></textarea><br/>
+  <h4 style="color: black;">Post a message:</h4>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+      Subject: <br/><input type="text" class="form-control"
+                  formControlName="subject" value=""/>
+               <br/>
+      Message: <br/><textarea class="form-control"
+                  formControlName="content" rows="7"></textarea>
+               <br/>
       <input type="submit" class="btn btn-primary" name="submit" value="Enter"/>
   </form>
 

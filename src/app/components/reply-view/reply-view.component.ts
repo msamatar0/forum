@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 import { User } from '../../common/user';
@@ -25,22 +25,34 @@ export class ReplyViewComponent implements OnInit {
     private userv: UserService,
     private pserv: PostService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
-  ) { }
+    private router: Router
+  ) {
+    this.parent = this.pserv.currentPost;
+  }
 
   ngOnInit(): void {
     this.replyForm = this.formBuilder.group({
       content: ['', Validators.required]
     });
     this.currentUser = this.userv.currentUser;
+
+    this.currentUser = this.userv.getCurrentUser();
+    if(this.currentUser == undefined)
+      this.router.navigate(['']);
   }
   public onSubmit(): void {
     let reply = new Post();
-    reply.content = this.replyForm.get('content').value;
-    reply.path = this.parent.path + reply.postId;
-    reply.postDate = new Date();
-    reply.postedBy = this.userv.currentUser.username;
-    reply.subject = "Re: " + this.parent.subject;
+    this.pserv.getMaxId().subscribe(id => {
+      console.log(this.parent);
+      reply.id = id + 1;
+      reply.timestamp = new Date();
+      reply.poster = this.userv.currentUser.username;
+      reply.subject = "Re: " + this.parent.subject;
+      reply.content = this.replyForm.get('content').value;
+      reply.path = reply.id.toString() + ':' + this.parent.path;
+      console.log(reply);
+    });
+
     
     this.pserv.save(reply);
   }

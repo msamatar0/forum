@@ -1,8 +1,8 @@
 export class Post {
-    postDate: Date;
-    postedBy: String;
+    id: number;
+    timestamp: Date;
+    poster: string;
     subject: string;
     content: string;
-    postId: number;
     path: string;
 }
