@@ -50,7 +50,7 @@ export class ForumComponent implements OnInit {
       this.currentPost = data;
       this.pserv.setPost(data);
       console.log(data);
-      this.router.navigate(['reply']);
+      this.router.navigate(['post/' + this.currentPost.postId]);
     });
   }
 
@@ -61,20 +61,20 @@ export class ForumComponent implements OnInit {
     const subject = this.postForm.get('subject').value;
     const content = this.postForm.get('content').value;
     this.pserv.getMaxId().subscribe(id => {
-      nextPost.id = id + 1;
-      nextPost.timestamp = new Date();
-      nextPost.poster = this.currentUser.username;
+      nextPost.postId = id + 1;
+      nextPost.postDate = new Date();
+      nextPost.postedBy = this.currentUser.username;
       nextPost.subject = subject;
       nextPost.content = content;
-      nextPost.path =  nextPost.id.toString();
+      nextPost.ancestorPath =  nextPost.postId.toString();
       this.pserv.save(nextPost);
+      this.userv.currentUser = this.currentUser;
+      this.listPosts();
     });
   }
 
   listPosts(){
-    this.pserv.getPostList().subscribe(
-      data => { this.posts = data; }
-    );
+    this.pserv.getPostList().subscribe(data =>  this.posts = data);
   }
 }
 

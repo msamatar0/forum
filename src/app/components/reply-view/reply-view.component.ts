@@ -44,16 +44,17 @@ export class ReplyViewComponent implements OnInit {
     let reply = new Post();
     this.pserv.getMaxId().subscribe(id => {
       console.log(this.parent);
-      reply.id = id + 1;
-      reply.timestamp = new Date();
-      reply.poster = this.userv.currentUser.username;
+      reply.postId = id + 1;
+      reply.postDate = new Date();
+      reply.postedBy = this.userv.currentUser.username;
       reply.subject = "Re: " + this.parent.subject;
       reply.content = this.replyForm.get('content').value;
-      reply.path = reply.id.toString() + ':' + this.parent.path;
-      console.log(reply);
+      reply.ancestorPath = reply.postId.toString() + ':' + this.parent.ancestorPath;
+      this.pserv.save(reply);
+      this.router.navigate(['forum']);
     });
 
     
-    this.pserv.save(reply);
+    
   }
 }

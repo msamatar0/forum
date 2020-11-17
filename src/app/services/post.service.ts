@@ -22,12 +22,12 @@ export class PostService {
   public save(post: Post): void{
     console.log("saving new post to db...");
     let body = {
-      postId: post.id,
-      post_date: post.timestamp.toLocaleDateString(),
-      postedBy: post.poster,
+      postId: post.postId,
+      post_date: post.postDate.toLocaleDateString(),
+      postedBy: post.postedBy,
       subject: post.subject,
       content: post.content,
-      ancestorPath: post.path
+      ancestorPath: post.ancestorPath
     };
     console.log(JSON.stringify(body));
     this.http.post(this.baseUrl, JSON.stringify(body), httpOptions).toPromise();
